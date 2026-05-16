@@ -24,15 +24,16 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 flex flex-col selection:bg-blue-500/30">
+    <div className="min-h-screen bg-[#020617] text-slate-200 flex flex-col selection:bg-blue-500/30">
       {/* Navbar */}
-      <header className="fixed w-full bg-slate-950/80 backdrop-blur-xl border-b border-white/5 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-[0_0_20px_rgba(37,99,235,0.3)]">
+      <header className="fixed inset-x-0 top-0 z-50 bg-[#040B1A]/88 supports-[backdrop-filter]:bg-[#040B1A]/72 backdrop-blur-xl relative overflow-visible">
+        <div className="absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(59,130,246,0.5),rgba(168,85,247,0.45),transparent)] shadow-[0_0_12px_rgba(59,130,246,0.25)]" />
+        <div className="max-w-7xl mx-auto h-20 flex items-center justify-between px-[clamp(24px,5vw,64px)]">
+          <Link href="/" className="flex items-center gap-2 hover:opacity-90 transition-opacity">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-[0_0_24px_rgba(59,130,246,0.28)] ring-1 ring-white/10">
               D
             </div>
-            <h1 className="text-2xl font-bold text-blue-400 hover:text-blue-300 transition-colors">
+            <h1 className="text-2xl font-bold text-white transition-colors drop-shadow-[0_0_10px_rgba(59,130,246,0.18)]">
               DoubtDesk
             </h1>
           </Link>
@@ -40,22 +41,22 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <SignedOut>
               <SignInButton mode="modal" forceRedirectUrl="/rooms">
-                <button className="px-5 py-2.5 bg-white/5 hover:bg-white/10 text-white rounded-xl text-sm font-semibold border border-white/10 transition-all">
+                <button className="px-5 py-2.5 bg-white/5 hover:bg-white/10 text-white rounded-xl text-sm font-semibold border border-white/10 transition-all hover:shadow-[0_0_16px_rgba(255,255,255,0.08)]">
                   Sign In
                 </button>
               </SignInButton>
               <SignUpButton mode="modal" forceRedirectUrl="/dashboard">
-                <button className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all">
+                <button className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold shadow-[0_0_15px_rgba(37,99,235,0.32)] transition-all">
                   Join DoubtDesk
                 </button>
               </SignUpButton>
             </SignedOut>
             <SignedIn>
               <div className="flex items-center gap-4">
-                <Link href="/rooms" className="hidden sm:block px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
+                <Link href="/rooms" className="hidden sm:block px-4 py-2 text-sm font-semibold text-slate-400 hover:text-white transition-all hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.18)]">
                   Classrooms
                 </Link>
-                <Link href="/profile" className="hidden sm:block px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white transition-colors">
+                <Link href="/profile" className="hidden sm:block px-4 py-2 text-sm font-semibold text-slate-400 hover:text-white transition-all hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.18)]">
                   Profile
                 </Link>
                 <UserButton 
@@ -94,8 +95,9 @@ export default function Home() {
       </AlertDialog>
 
       {/* Hero Section */}
-      <main className="flex-1 pt-24 mt-6 relative overflow-hidden">
-        <section className="px-6 pb-12 relative z-10">
+      <main className="flex-1 pt-[128px] relative overflow-hidden">
+        <section className="px-6 pb-12 relative z-10 pt-3 md:pt-6">
+          <div className="pointer-events-none absolute left-1/2 top-6 -z-10 h-80 w-[min(72rem,90vw)] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.18),transparent_68%)] blur-3xl" />
           <div className="max-w-7xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-500/10 text-blue-400 rounded-full text-sm font-medium mb-6 border border-blue-500/20 animate-fade-in backdrop-blur-md">
               <Sparkles className="w-4 h-4" />
@@ -137,9 +139,9 @@ export default function Home() {
 
         {/* Dynamic Background Elements */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none overflow-hidden -z-10">
-          <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-blue-600/20 blur-[150px] rounded-full animate-pulse"></div>
-          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-600/20 blur-[150px] rounded-full"></div>
-          <div className="absolute top-[30%] right-[10%] w-[30%] h-[30%] bg-cyan-600/10 blur-[120px] rounded-full"></div>
+          <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-blue-600/14 blur-[150px] rounded-full animate-pulse"></div>
+          <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-600/12 blur-[150px] rounded-full"></div>
+          <div className="absolute top-[30%] right-[10%] w-[30%] h-[30%] bg-cyan-600/8 blur-[120px] rounded-full"></div>
 
           {/* Subtle Grid Pattern */}
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
