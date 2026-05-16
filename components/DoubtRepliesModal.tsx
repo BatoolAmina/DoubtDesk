@@ -135,7 +135,7 @@ export default function DoubtRepliesModal({ doubt, isOpen, onClose, onReplyChang
                 toast.success(editingId ? "Solution updated!" : (type === 'solution' ? "Solution posted!" : "Chat sent."));
             } else {
                 const data = await res.json();
-                toast.error(data.error || "Failed to post.");
+                toast.error(data.message || data.error || "Failed to post.");
             }
         } catch (error) {
             toast.error("An unexpected error occurred.");

@@ -220,7 +220,7 @@ export default function AskDoubt({ defaultSubject = "", isOpen, onClose, onSucce
                 onSuccess();
                 toast.success(doubtToEdit ? "Doubt updated successfully!" : "Doubt posted successfully!");
             } else {
-                toast.error(data.error || "Failed to post doubt.");
+                toast.error(data.message || data.error || "Failed to post doubt.");
             }
         } catch (error) {
             console.error("Submission failed:", error);
