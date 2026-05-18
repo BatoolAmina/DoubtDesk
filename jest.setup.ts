@@ -2,9 +2,9 @@ import '@testing-library/jest-dom';
 import { TextEncoder, TextDecoder } from 'util';
 import { ReadableStream, TransformStream, WritableStream } from 'stream/web';
 import { MessageChannel, MessagePort } from 'worker_threads';
-import { Blob, FormData } from 'buffer';
+import { Blob } from 'buffer';
 
-global.TextEncoder = TextEncoder;
+global.TextEncoder = TextEncoder as any;
 global.TextDecoder = TextDecoder as any;
 global.ReadableStream = ReadableStream as any;
 global.TransformStream = TransformStream as any;
@@ -12,7 +12,6 @@ global.WritableStream = WritableStream as any;
 global.MessageChannel = MessageChannel as any;
 global.MessagePort = MessagePort as any;
 global.Blob = Blob as any;
-global.FormData = FormData as any;
 
 if (!String.prototype.toWellFormed) {
     String.prototype.toWellFormed = function () {
@@ -20,7 +19,7 @@ if (!String.prototype.toWellFormed) {
     };
 }
 
-const { Request, Response, Headers, fetch } = require('undici');
+const { Request, Response, Headers, fetch, FormData: UndiciFormData } = require('undici');
 
 Object.defineProperties(globalThis, {
     Request: { value: Request, writable: true, configurable: true },
@@ -28,6 +27,8 @@ Object.defineProperties(globalThis, {
     Headers: { value: Headers, writable: true, configurable: true },
     fetch: { value: fetch, writable: true, configurable: true },
 });
+
+global.FormData = (globalThis.FormData || UndiciFormData) as any;
 
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
@@ -52,7 +53,7 @@ global.ResizeObserver = class ResizeObserver {
 };
 
 // Mock IntersectionObserver
-global.IntersectionObserver = class IntersectionObserver {
+(global as any).IntersectionObserver = class IntersectionObserver {
     readonly root: Element | null = null;
     readonly rootMargin: string = '';
     readonly thresholds: ReadonlyArray<number> = [];
