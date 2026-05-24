@@ -2,16 +2,16 @@ import { NextResponse } from 'next/server';
 import Groq from 'groq-sdk';
 import { currentUser } from '@clerk/nextjs/server';
 
-const groq = new Groq({
-    apiKey: process.env.GROQ_API_KEY,
-});
-
 export async function POST(req: Request) {
     try {
         const user = await currentUser();
         if (!user) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
+
+        const groq = new Groq({
+            apiKey: process.env.GROQ_API_KEY,
+        });
 
         const { content } = await req.json();
         if (!content) {
