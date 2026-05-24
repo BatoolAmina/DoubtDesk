@@ -18,7 +18,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const labelsToAdd = ['gssoc', "gssoc'26"];
+            const labelsToAdd = ["gssoc'26"];
             
             // Extract the title regardless of whether it's an issue or PR
             const payload = context.payload;

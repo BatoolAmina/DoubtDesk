@@ -5,6 +5,8 @@ on:
     types: [labeled]
   pull_request_target:
     types: [labeled]
+  issue_comment:
+    types: [created]
 
 jobs:
   close_and_comment:
@@ -12,9 +14,58 @@ jobs:
     permissions:
       issues: write
       pull-requests: write
-    if: ${{ github.event.label.name == 'duplicate' || github.event.label.name == 'invalid' }}
     steps:
-      - name: Comment and Close
+      - name: Handle duplicate via comment command
+        if: ${{ github.event_name == 'issue_comment' && contains(github.event.comment.body, '/duplicate #') && !github.event.issue.pull_request }}
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const commenter = context.payload.comment.user.login;
+            try {
+              const { data: permission } = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                username: commenter
+              });
+              if (!['admin', 'write'].includes(permission.permission)) {
+                console.log(`User ${commenter} is not a maintainer.`);
+                return;
+              }
+            } catch (e) {
+              return;
+            }
+
+            const body = context.payload.comment.body;
+            const match = body.match(/\/duplicate\s+#(\d+)/);
+            if (!match) return;
+            const dupNumber = match[1];
+
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['duplicate']
+            });
+
+            const message = `Hi there! 👋 Thanks for your contribution. However, this issue has been marked as a **duplicate** of #${dupNumber}. We are closing it to keep our tracker organized. Please search existing issues before opening new ones!`;
+            
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: message
+            });
+
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: 'closed'
+            });
+
+      - name: Handle invalid or duplicate via label
+        if: ${{ (github.event_name == 'issues' || github.event_name == 'pull_request_target') && (github.event.label.name == 'duplicate' || github.event.label.name == 'invalid') }}
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -27,12 +78,11 @@ jobs:
             let message = '';
             
             if (labelName === 'duplicate') {
-              message = `Hi there! 👋 Thanks for your contribution. However, this ${typeStr} has been marked as a **duplicate** of an existing one. We are closing it to keep our tracker organized. Please search existing ${typeStr}s before opening new ones!`;
+              message = `Hi there! 👋 Thanks for your contribution. However, this ${typeStr} has been marked as a **duplicate** of an existing one. We are closing it to keep our tracker organized.\n\n*(Maintainers: To explicitly state which issue this duplicates, use the command \`/duplicate #123\` in a comment!)*`;
             } else if (labelName === 'invalid') {
               message = `Hi there! 👋 Thanks for reaching out. This ${typeStr} has been marked as **invalid**. This usually means it does not follow our contributing guidelines, is out of scope for the project, or lacks necessary information. It will now be closed.`;
             }
             
-            // Add comment
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -40,7 +90,6 @@ jobs:
               body: message
             });
             
-            // Close the issue/PR
             await github.rest.issues.update({
               owner: context.repo.owner,
               repo: context.repo.repo,
