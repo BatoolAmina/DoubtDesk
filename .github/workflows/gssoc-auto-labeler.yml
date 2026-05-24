@@ -38,6 +38,20 @@ jobs:
               labelsToAdd.push('type:refactor');
             }
             
+            // Assign difficulty levels based on keywords
+            if (title.includes('idor') || title.includes('bypass') || title.includes('security') || title.includes('auth') || title.includes('crash')) {
+              labelsToAdd.push('level:advanced');
+            } else if (title.includes('docs') || title.includes('typo') || title.includes('readme') || title.includes('button') || title.includes('hover') || title.includes('ui')) {
+              labelsToAdd.push('level:beginner');
+              // Only add good first issue tags to Issues (not PRs)
+              if (payload.issue) {
+                labelsToAdd.push('good first issue');
+                labelsToAdd.push('beginner friendly');
+              }
+            } else {
+              labelsToAdd.push('level:intermediate');
+            }
+            
             // Add labels
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
