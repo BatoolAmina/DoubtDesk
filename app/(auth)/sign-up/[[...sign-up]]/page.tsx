@@ -1,9 +1,9 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { SignUp } from "@clerk/nextjs";
-import { useTheme } from "next-themes";
-import { dark } from "@clerk/themes";
+import Link from "next/link"
+import { SignUp } from "@clerk/nextjs"
+import { useTheme } from "next-themes"
+import { dark } from "@clerk/themes"
 
 export default function Page() {
   const { resolvedTheme } = useTheme();

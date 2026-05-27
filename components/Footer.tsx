@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import Link from "next/link";
 import Image from "next/image";
@@ -10,7 +10,70 @@ import {
   ChevronRight,
   Users,
   MessageSquare,
-} from "lucide-react";
+} from "lucide-react"
+
+const footerSections = [
+  {
+    title: "Platform",
+    links: [
+      { label: "Dashboard", href: "/dashboard" },
+      { label: "Virtual Campus", href: "/rooms" },
+      { label: "Public Doubts", href: "/public-rooms" },
+      { label: "Bookmarks", href: "/bookmarks" },
+      { label: "AI Solver", href: "/ask-ai" },
+      { label: "Analytics", href: "/dashboard/analytics" },
+    ],
+  },
+  {
+    title: "Resources",
+    links: [
+      { label: "Privacy Policy", href: "/privacy-policy" },
+      { label: "Terms of Service", href: "/terms-of-service" },
+      { label: "About", href: "/about" },
+      { label: "FAQs", href: "/faq" },
+    ],
+  },
+  {
+    title: "Community",
+    links: [
+      { label: "GitHub", href: "https://github.com/knoxiboy/DoubtDesk" },
+      { label: "Contributors", href: "/contributors" },
+      { label: "Report Issue", href: "https://github.com/knoxiboy/DoubtDesk/issues" },
+      { label: "Contact", href: "mailto:karankmt.tripathi@gmail.com" },
+    ],
+  },
+]
+
+const communityIcons = {
+  GitHub: Github,
+  Contributors: Users,
+  "Report Issue": MessageSquare,
+  Contact: Mail,
+} as const
+
+const socialLinks = [
+  {
+    icon: Linkedin,
+    href: "https://www.linkedin.com/",
+    label: "LinkedIn",
+    ariaLabel: "Visit DoubtDesk on LinkedIn",
+    hoverColor: "hover:text-blue-500 dark:hover:text-blue-400",
+  },
+  {
+    icon: Github,
+    href: "https://github.com/knoxiboy/DoubtDesk",
+    label: "GitHub",
+    ariaLabel: "Visit the DoubtDesk GitHub repository",
+    hoverColor: "hover:text-slate-900 dark:hover:text-slate-300",
+  },
+  {
+    icon: Mail,
+    href: "mailto:karankmt.tripathi@gmail.com",
+    label: "Email",
+    ariaLabel: "Email the DoubtDesk team",
+    hoverColor: "hover:text-purple-500 dark:hover:text-purple-400",
+  },
+]
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
